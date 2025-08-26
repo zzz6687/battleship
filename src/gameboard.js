@@ -7,6 +7,7 @@ export class Gameboard {
     this.missedShots = [];
     this.attacks = new Set();
     this.size = 10;
+    this.blockedList = new Set();
   }
 
   placeShip(ship, row, col, isHorizontal = true) {
@@ -17,16 +18,34 @@ export class Gameboard {
     const shipCoordinates = [];
 
     for (let i = 0; i < ship.length; i++) {
-      const coordinate = isHorizontal
-        ? `${row},${col + i}`
-        : `${row + i},${col}`;
+      const coordX = isHorizontal ? row : row + i;
+      const coordY = isHorizontal ? col + i : col;
+      const coordinate = `${coordX},${coordY}`;
       shipCoordinates.push(coordinate);
+    }
+
+    // блокируем сам корабль и все клетки вокруг
+    for (const coord of shipCoordinates) {
+      const [x, y] = coord.split(",").map(Number);
+
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const nx = x + dx;
+          const ny = y + dy;
+
+          if (nx >= 0 && nx < this.size && ny >= 0 && ny < this.size) {
+            this.blockedList.add(`${nx},${ny}`);
+          }
+        }
+      }
     }
 
     this.ships.push({
       ship: ship,
       coordinates: shipCoordinates,
     });
+
+    return true;
   }
 
   canPlaceShip(ship, row, col, isHorizontal) {
@@ -39,11 +58,8 @@ export class Gameboard {
       }
 
       const coordinate = `${coordX},${coordY}`;
-
-      for (const shipData of this.ships) {
-        if (shipData.coordinates.includes(coordinate)) {
-          return false;
-        }
+      if (this.blockedList.has(coordinate)) {
+        return false;
       }
     }
     return true;

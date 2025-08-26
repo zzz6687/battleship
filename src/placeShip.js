@@ -49,26 +49,29 @@ export function placingPlayerShips(
       const startCol = parseInt(cell.dataset.col, 10);
 
       const ship = new Ship(size);
-
       const isHorizontal = orientation === "horizontal";
 
+      if (
+        !gameboardPlayer.canPlaceShip(ship, startRow, startCol, isHorizontal)
+      ) {
+        return;
+      }
+
       for (let i = 0; i < size; i++) {
-        const targetRow =
-          orientation === "horizontal" ? startRow : startRow + i;
-        const targetCol =
-          orientation === "horizontal" ? startCol + i : startCol;
+        const targetRow = isHorizontal ? startRow : startRow + i;
+        const targetCol = isHorizontal ? startCol + i : startCol;
 
-        //Находим DOM-элемент клетки с координатами (targetRow, targetCol).
-        //Это позволяет разместить части корабля в соответствующих ячейках игрового поля.
-        const targetCell = document.querySelector(
-          `#player-board .cell[data-row="${targetRow}"][data-col="${targetCol}"]`
-        );
-
-        if (!targetCell || targetCell.hasChildNodes()) {
+        if (
+          targetRow >= gameboardPlayer.size ||
+          targetCol >= gameboardPlayer.size
+        ) {
           return;
         }
       }
-      gameboardPlayer.placeShip(ship, startRow, startCol, isHorizontal);
+
+      if (!gameboardPlayer.placeShip(ship, startRow, startCol, isHorizontal)) {
+        return;
+      }
 
       for (let i = 0; i < size; i++) {
         const targetRow = isHorizontal ? startRow : startRow + i;
@@ -90,7 +93,7 @@ export function placingPlayerShips(
       if (shipCount === 0) {
         fleet.classList.remove("hasShips");
         const computerSide = document.getElementById("computerSide");
-        const placeYourShipsText = document.getElementById("placeYourShipsId");
+        //const placeYourShipsText = document.getElementById("placeYourShipsId");
         if (fleet.classList.contains("hasShips")) {
           return;
         } else {
@@ -100,7 +103,7 @@ export function placingPlayerShips(
           computerSide.appendChild(startGameBtn);
 
           rotateBtn.style.display = "none";
-          placeYourShipsText.remove();
+          //placeYourShipsText.remove();
 
           startGameBtn.addEventListener("click", () => {
             startGameClick(
@@ -113,12 +116,6 @@ export function placingPlayerShips(
           });
         }
       }
-
-      console.log(
-        "📦 Состояние игрока:",
-        gameboardPlayer,
-        gameboardPlayer.ships
-      );
     });
   });
 

@@ -1,8 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
 body {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  background-color: #f0f8ff;
+  font-family: "Anton", sans-serif;
+}
+
+h1 {
+  font-size: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .gameboard {
@@ -16,34 +26,46 @@ body {
 .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid palevioletred;
+  border: 1px solid #4663ac;
   cursor: pointer;
+}
+
+#computer-board .cell:hover {
+  background-color: #c8d9ed;
 }
 
 #fleet {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   flex-direction: column;
 }
 
 #rotateBtn {
-  width: 100px;
-  height: 25px;
+  width: 120px;
+  height: 30px;
   border-radius: 5px;
-  border: none;
+  border: 1px solid #4663ac;
   margin-top: 20px;
   cursor: pointer;
+  background-color: #b9d9eb;
+  color: #4663ac;
+  font-family: "Anton", sans-serif;
+  font-size: 14px;
+  transition: 0.3s;
 }
 
-#game-container {
-  display: flex;
+#rotateBtn:hover {
+  transform: scale(1.03);
 }
 
 #player-controls {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+#game-container {
+  display: flex;
 }
 
 #player-board {
@@ -51,11 +73,21 @@ body {
 }
 
 #startBtn {
-  width: 100px;
-  height: 25px;
+  width: 120px;
+  height: 30px;
   border-radius: 5px;
-  border: none;
   cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #4663ac;
+  background-color: #b9d9eb;
+  color: #4663ac;
+  font-family: "Anton", sans-serif;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+#startBtn:hover {
+  transform: scale(1.03);
 }
 
 .ship {
@@ -67,10 +99,68 @@ body {
 .ship-cell {
   width: 30px;
   height: 30px;
-  background: #3498db;
+  background: #0e3386;
   border: 1px solid #ccc;
 }
 
 .vertical {
   flex-direction: column;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  /* background: rgba(161, 205, 255, 0.9);
+  /*background: rgba(69, 168, 255, 0.6);*/
+  background: rgba(28, 110, 164, 0.9);
+  width: 300px;
+  height: 200px;
+  padding: 40px 50px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#popupmessage {
+  /* color: #022b4f;*/
+  color: #faf9f6;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+.popup button {
+  width: 120px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #4663ac;
+  background-color: #b9d9eb;
+  font-family: "Anton", sans-serif;
+  font-size: 14px;
+  transition: 0.3s;
+  color: #022b4f;
+}
+
+.popup button:hover {
+  transform: scale(1.04);
+}
+
+.hidden {
+  display: none;
 }

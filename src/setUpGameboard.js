@@ -23,10 +23,10 @@ function createGrid(boardElement, gameboard, isPlayer = false) {
 
   if (isPlayer) {
     const controls = document.getElementById("player-controls");
-    const placeYourShipText = document.createElement("h4");
-    placeYourShipText.id = "placeYourShipsId";
-    placeYourShipText.textContent = "Place your ships";
-    controls.appendChild(placeYourShipText);
+    //const placeYourShipText = document.createElement("h4");
+    //placeYourShipText.id = "placeYourShipsId";
+    //placeYourShipText.textContent = "Place your ships";
+    //controls.appendChild(placeYourShipText);
 
     const fleet = document.createElement("div");
     fleet.id = "fleet";

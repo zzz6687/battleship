@@ -2,6 +2,7 @@
 import { Player } from "./player";
 import { setUpBoards } from "./setUpGameboard";
 import { placingPlayerShips } from "./placeShip";
+import { showWinnerPopup } from "./winnerPopup";
 
 export function startGameClick(
   computerGameboard,
@@ -40,51 +41,67 @@ export function startGameClick(
 
       const attackResult = human.attack(computerGameboard, shotRow, shotCol);
 
-      cell.style.backgroundColor = attackResult.hit ? "red" : "grey";
-
-      currentTurn = "computer";
-      computerBoardElement.style.pointerEvents = "none";
-
-      console.log("Computer's turn...");
-
-      const { x, y, hit } = computer.attack(humanGameboard);
-
-      const humanCell = document.querySelector(
-        `#player-board .cell[data-row="${x}"][data-col="${y}"]`
-      );
-
-      if (hit === null) {
-        return;
-      }
-      if (hit) {
-        humanCell.firstChild.style.setProperty(
-          "background-color",
-          "red",
-          "important"
-        );
-      } else {
-        humanCell.style.backgroundColor = "grey";
-      }
+      cell.style.backgroundColor = attackResult.hit ? "#CC0000" : "#C6E6FB";
+      cell.style.pointerEvents = "none";
 
       if (computerGameboard.allShipsSunk()) {
-        alert("Player won!");
-        humanBoardElement.style.pointerEvents = "auto";
-        makeResetBtn();
+        showWinnerPopup("Player");
+        //humanBoardElement.style.pointerEvents = "auto";
+        //makeResetBtn();
         return;
       } else if (humanGameboard.allShipsSunk()) {
-        alert("Computer won!");
-        humanBoardElement.style.pointerEvents = "auto";
-        makeResetBtn();
+        showWinnerPopup("Computer");
+        //humanBoardElement.style.pointerEvents = "auto";
+        //makeResetBtn();
         return;
       }
 
-      currentTurn = "human";
-      computerBoardElement.style.pointerEvents = "auto";
+      if (!attackResult.hit) {
+        currentTurn = "computer";
+        computerTurn();
+      } else {
+        currentTurn = "human";
+        computerBoardElement.style.pointerEvents = "auto";
+      }
 
-      console.log("Attack coords:", { x, y, hit });
-      console.log("Cell found:", humanCell);
+      function computerTurn() {
+        const computerBoardElement = document.getElementById("computer-board");
 
-      cell.style.pointerEvents = "none";
+        // Делаем доску некликабельной для хода компьютера
+        computerBoardElement.style.pointerEvents = "none";
+
+        const takeTurn = () => {
+          const { x, y, hit } = computer.attack(humanGameboard);
+
+          if (hit === null) {
+            currentTurn = "human";
+            computerBoardElement.style.pointerEvents = "auto";
+            return;
+          }
+
+          const humanCell = document.querySelector(
+            `#player-board .cell[data-row="${x}"][data-col="${y}"]`
+          );
+
+          if (hit) {
+            humanCell.firstChild.style.setProperty(
+              "background-color",
+              "#CC0000",
+              "important"
+            );
+            if (humanGameboard.allShipsSunk()) {
+              showWinnerPopup("Computer");
+              return;
+            }
+            setTimeout(takeTurn, 600);
+          } else {
+            humanCell.style.backgroundColor = "#C6E6FB";
+            currentTurn = "human";
+            computerBoardElement.style.pointerEvents = "auto";
+          }
+        };
+        takeTurn();
+      }
     });
   });
 }
