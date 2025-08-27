@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -7,12 +13,17 @@ body {
   align-items: center;
   background-color: #f0f8ff;
   font-family: "Anton", sans-serif;
+  padding: 20px;
 }
 
 h1 {
   font-size: 60px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+#game-container {
+  display: flex;
 }
 
 .gameboard {
@@ -40,6 +51,23 @@ h1 {
   flex-direction: column;
 }
 
+.ship {
+  display: flex;
+  gap: 2px;
+  cursor: grab;
+}
+
+.ship-cell {
+  width: 30px;
+  height: 30px;
+  background: #0e3386;
+  border: 1px solid #ccc;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
 #rotateBtn {
   width: 120px;
   height: 30px;
@@ -58,14 +86,28 @@ h1 {
   transform: scale(1.03);
 }
 
-#player-controls {
-  margin-bottom: 15px;
+#button-container {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 300px; /* Same as gameboard width */
 }
 
-#game-container {
+#button-container button {
+  flex: 1;
+  min-width: 120px;
+  margin: 0;
+}
+
+#player-controls {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 300px;
 }
 
 #player-board {
@@ -90,23 +132,6 @@ h1 {
   transform: scale(1.03);
 }
 
-.ship {
-  display: flex;
-  gap: 2px;
-  cursor: grab;
-}
-
-.ship-cell {
-  width: 30px;
-  height: 30px;
-  background: #0e3386;
-  border: 1px solid #ccc;
-}
-
-.vertical {
-  flex-direction: column;
-}
-
 .popup {
   position: fixed;
   top: 0;
@@ -120,8 +145,6 @@ h1 {
 }
 
 .popup-content {
-  /* background: rgba(161, 205, 255, 0.9);
-  /*background: rgba(69, 168, 255, 0.6);*/
   background: rgba(28, 110, 164, 0.9);
   width: 300px;
   height: 200px;
@@ -137,7 +160,6 @@ h1 {
 }
 
 #popupmessage {
-  /* color: #022b4f;*/
   color: #faf9f6;
   margin-bottom: 20px;
   font-size: 25px;
@@ -163,4 +185,56 @@ h1 {
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 768px) {
+  #game-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  .gameboard {
+    grid-template-columns: repeat(10, 25px);
+    grid-template-rows: repeat(10, 25px);
+  }
+
+  .cell {
+    width: 25px;
+    height: 25px;
+  }
+
+  .ship-cell {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gameboard {
+    grid-template-columns: repeat(10, 20px);
+    grid-template-rows: repeat(10, 20px);
+  }
+
+  .cell {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ship-cell {
+    width: 20px;
+    height: 20px;
+  }
+
+  .popup-content {
+    width: 90%;
+    padding: 30px;
+  }
+
+  #popupmessage {
+    font-size: 20px;
+  }
 }

@@ -1,4 +1,4 @@
-// ui.js
+// setUpGameboardi.js
 
 export function setUpBoards(playerGameboard, computerGameboard) {
   const playerBoardElement = document.getElementById("player-board");
@@ -23,10 +23,6 @@ function createGrid(boardElement, gameboard, isPlayer = false) {
 
   if (isPlayer) {
     const controls = document.getElementById("player-controls");
-    //const placeYourShipText = document.createElement("h4");
-    //placeYourShipText.id = "placeYourShipsId";
-    //placeYourShipText.textContent = "Place your ships";
-    //controls.appendChild(placeYourShipText);
 
     const fleet = document.createElement("div");
     fleet.id = "fleet";
@@ -42,8 +38,6 @@ function createGrid(boardElement, gameboard, isPlayer = false) {
 
       fleet.appendChild(ship);
     }
-
-    //boardElement.appendChild(fleet);
   }
   for (let row = 0; row < gameboard.size; row++) {
     for (let col = 0; col < gameboard.size; col++) {

@@ -1,7 +1,4 @@
 // game.js
-import { Player } from "./player";
-import { setUpBoards } from "./setUpGameboard";
-import { placingPlayerShips } from "./placeShip";
 import { showWinnerPopup } from "./winnerPopup";
 
 export function startGameClick(
@@ -18,13 +15,11 @@ export function startGameClick(
   );
 
   const computerBoardElement = document.getElementById("computer-board");
-  const humanBoardElement = document.getElementById("player-board");
 
   let currentTurn = "human";
 
   computerBoardElement.style.pointerEvents = "auto";
 
-  const playerCells = document.querySelectorAll("#player-board .cell");
   const computerCells = document.querySelectorAll("#computer-board .cell");
 
   const oldResetBtn = document.getElementById("resetBtn");
@@ -46,13 +41,9 @@ export function startGameClick(
 
       if (computerGameboard.allShipsSunk()) {
         showWinnerPopup("Player");
-        //humanBoardElement.style.pointerEvents = "auto";
-        //makeResetBtn();
         return;
       } else if (humanGameboard.allShipsSunk()) {
         showWinnerPopup("Computer");
-        //humanBoardElement.style.pointerEvents = "auto";
-        //makeResetBtn();
         return;
       }
 
@@ -67,7 +58,6 @@ export function startGameClick(
       function computerTurn() {
         const computerBoardElement = document.getElementById("computer-board");
 
-        // Делаем доску некликабельной для хода компьютера
         computerBoardElement.style.pointerEvents = "none";
 
         const takeTurn = () => {
@@ -103,31 +93,5 @@ export function startGameClick(
         takeTurn();
       }
     });
-  });
-}
-
-function makeResetBtn() {
-  const gameContainer = document.getElementById("game-container");
-
-  const resetBtn = document.createElement("button");
-  resetBtn.id = "resetBtn";
-  resetBtn.textContent = "Reset Game";
-  gameContainer.appendChild(resetBtn);
-
-  resetBtn.addEventListener("click", () => {
-    const playerBoardElement = document.getElementById("player-board");
-    const computerBoardElement = document.getElementById("computer-board");
-
-    if (playerBoardElement) playerBoardElement.innerHTML = "";
-    if (computerBoardElement) computerBoardElement.innerHTML = "";
-
-    const player = new Player("human");
-    const computer = new Player("computer");
-
-    setUpBoards(player.gameboard, computer.gameboard);
-
-    placingPlayerShips(player.gameboard, computer.gameboard, player, computer);
-
-    resetBtn.remove();
   });
 }

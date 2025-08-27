@@ -31,8 +31,4 @@ export class Player {
     const hit = oppGameboard.receiveAttack(x, y);
     return { x, y, hit };
   }
-
-  hasLost() {
-    return this.gameboard.allShipsSunk();
-  }
 }

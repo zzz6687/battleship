@@ -24,7 +24,6 @@ export class Gameboard {
       shipCoordinates.push(coordinate);
     }
 
-    // блокируем сам корабль и все клетки вокруг
     for (const coord of shipCoordinates) {
       const [x, y] = coord.split(",").map(Number);
 
@@ -108,7 +107,6 @@ export class Gameboard {
   }
 
   allShipsSunk() {
-    // should be able to report whether or not all of their ships have been sunk
     return this.ships.every((shipData) => shipData.ship.isSunk());
   }
 }

@@ -10,8 +10,6 @@ export function showWinnerPopup(message) {
   popupMessage.textContent = message + " is a winner!";
   popupWindow.classList.remove("hidden");
 
-  const gameContainer = document.getElementById("game-container");
-
   restartBtn.addEventListener("click", () => {
     const playerBoardElement = document.getElementById("player-board");
     const computerBoardElement = document.getElementById("computer-board");
